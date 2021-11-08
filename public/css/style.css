@@ -1,0 +1,10 @@
+#messages {
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#messages div p {
+    display: flex;
+    flex-direction: column-reverse;
+}
