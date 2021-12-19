@@ -1,4 +1,5 @@
-// import "index.scss";
+import './index.scss';
+import './assert/img/send.png';
 
 const io = require('socket.io-client');
 

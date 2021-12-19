@@ -1,1 +1,174 @@
 @charset "utf-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  .hide {
+    display: none;
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .container {
+    width: 100%;
+    height: 700px;
+    
+    .chat {
+      width: 100%;
+      height: 100%;
+      border: 2px solid lightgrey;
+      border-radius: 10px;
+
+      .chanList {
+        width: 100%;
+        height: 50px;
+        background: rgb(37, 37, 37);
+        border-radius: 10px 10px 0 0;
+
+        ul {
+          display: flex;
+          flex-direction: row-reverse;
+          
+          li {
+            width: 10%;
+            list-style: none;
+            background: lightgrey;
+            border-radius: 10px 10px 10px 10px;
+            padding: 2px;
+            margin: 10px;
+            text-align: center;
+          }
+        }
+      }
+    }
+      
+      .userListMessageContainer {
+        display: flex;
+        flex-direction: row;
+        height: 646px;
+
+        .userList {
+          width: 20%;
+          height: 100%;
+          background:rgb(65, 65, 65);
+          border-radius: 0 0 0 10px;
+          
+          ul {
+            width: 100%;
+            padding: 0 10px 0 10px;
+            
+            li {
+              list-style: none;
+              width: 100%;
+              background: lightgrey;
+              border-radius: 10px 10px 10px 10px;
+              padding: 2px;
+              margin: 5px auto 5px auto;
+              text-align: center;
+            }
+          }
+        }
+        
+        .messageContainer {
+          width: 80%;
+          height: 636px;
+          display: flex;
+          flex-direction: column;
+
+          .messages {
+            width: 100%;
+            height: 95%;
+            display: flex;
+            flex-direction: column;
+
+            .message {
+              width: 40%;
+              display: flex;
+              flex-direction: column;
+              margin: 10px 20px 10px 20px;
+
+              .messageBody {
+                width: 100%;
+                background: lightgreen;
+                border-radius: 0 10px 10px 10px;
+
+                p {
+                  padding: 15px 15px 0 15px;
+                }
+              }
+
+              small {
+                text-align: end;
+              }
+            }
+
+            #you {
+              align-self: flex-end;
+              display: flex;
+              flex-direction: column;
+
+              h4 {
+                text-align: end;
+              }
+
+              .messageBody {
+                background: lightskyblue;
+                border-radius: 10px 0 10px 10px;
+              }
+
+              small {
+                text-align: start;
+              }
+            }
+          }
+
+          .writingNotification {
+            width: 30%;
+            height: 30px;
+            text-align: center;
+          }
+
+          .messageInput {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+
+            input {
+              width: 85%;
+              height: 30px;
+            }
+
+            button {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              border: none;
+              background: rgb(68, 108, 188);
+
+              p {
+                position: relative;
+                top: 40%;
+                left: 55%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 40px;
+              }
+            }
+          }
+        }
+      }
+    }
+}

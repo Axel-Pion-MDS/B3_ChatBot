@@ -10,26 +10,51 @@
     <div id="app">
       <h1>ChatBot <small>x</small> Socket.io</h1>
       <div class="container">
-        <div class="logIn">
+        <div class="logIn hide">
 
         </div>
-        <div class="chat hide">
+        <div class="chat show">
           <div class="chanList">
-
+            <ul>
+              <li>Channel 1</li>
+              <li>Channel 2</li>
+            </ul>
           </div>
-          <div class="userList">
-
-          </div>
-          <div class="messageContainer" id="messageContainer">
-            <div class="message">
-
+          <div class="userListMessageContainer">
+            <div class="userList">
+              <ul>
+                <li>Maengdok</li>
+                <li>Haneul</li>
+                <li>Sinhwa</li>
+              </ul>
             </div>
-            <div class="writingNotification">
-
-            </div>
-            <div class="messageInput" id="messageInput">
-              <input type="text" id="userInput" autofocus />
-              <button type="button">Send</button>
+            <div class="messageContainer" id="messageContainer">
+              <div class="messages">
+                <div class="message" id="you">
+                  <h4>You</h4>
+                  <div class="messageBody">
+                    <p>Lorem ipsum dolor sit amet.</p>
+                  </div>
+                  <small>12/19/21 - 2:00PM</small>
+                </div>
+                <div class="message">
+                  <h4>Maengdok</h4>
+                  <div class="messageBody">
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit cum ipsum atque nam ullam fuga. Vel porro provident libero hic.</p>
+                  </div>
+                  <small>12/19/21 - 2:03PM</small>
+                </div>
+              </div>
+              <div class="writingNotification">
+                <p class="singlePerson show">Haneul is typing...</p>
+                <p class="manyPersone hide">Haneul and 2 more persons are typing...</p>
+              </div>
+              <div class="messageInput" id="messageInput">
+                <input type="text" id="userInput" autofocus />
+                <button type="button">
+                  <p>></p>
+                </button>
+              </div>
             </div>
           </div>
         </div>
