@@ -15,13 +15,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'));
 });
 
-// ? IO
-io.on('connection', (client) => {
-  // eslint-disable-next-line no-console
-  console.log(`An user has connected with id: ${client.id}`);
-});
-
 // TODO
+io.on('connection', (socket) => {
+
+  // detect the user's pseudo
+  socket.on('pseudo', (pseudo) => {
+    socket.pseudo = pseudo;
+    // emit to all users
+    socket.broadcast.emit('newUser', pseudo);
+  })
+});
 
 // ? Server listening
 server.listen(3000, () => {
