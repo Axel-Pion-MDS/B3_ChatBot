@@ -17,35 +17,49 @@ export default class Chat {
 
   renderUserLeave(pseudo) {
     const date = new Date().toLocaleString();
+    const newUserJoin = document.createElement('div');
+    const newUserJoinBody = document.createElement('div');
+    const newUserJoinBodyP = document.createElement('p');
+    const newUserJoinDate = document.createElement('small');
 
-    return `
-      <div class="leaveMessage" id="leaveMessage">
-        <div class="messageBody">
-          <p>${pseudo} has left the channel</p>
-        </div>
-        <small>${date}</small>
-      </div>
-    `;
+    newUserJoin.className = 'leaveMessage';
+    newUserJoin.id = 'leaveMessage';
+    newUserJoinBody.className = 'messageBody';
+    newUserJoinBodyP.innerHTML = `${pseudo} has left the channel`;
+    newUserJoinDate.innerHTML = `${date}`;
+
+    this.messages.appendChild(newUserJoin);
+    newUserJoin.appendChild(newUserJoinBody);
+    newUserJoinBody.appendChild(newUserJoinBodyP);
+    newUserJoin.appendChild(newUserJoinDate);
   }
 
   renderNewUserInList(pseudo) {
     const newUserInList = document.createElement('li');
+
     newUserInList.innerHTML = `${pseudo}`;
     newUserInList.className = 'user';
+
     this.contacts.appendChild(newUserInList);
   }
 
   renderUserJoin(pseudo) {
     const date = new Date().toLocaleString();
+    const newUserJoin = document.createElement('div');
+    const newUserJoinBody = document.createElement('div');
+    const newUserJoinBodyP = document.createElement('p');
+    const newUserJoinDate = document.createElement('small');
 
-    return `
-      <div class="joinMessage" id="joinMessage">
-        <div class="messageBody">
-          <p>${pseudo} has joined the channel</p>
-        </div>
-        <small>${date}</small>
-      </div>
-    `;
+    newUserJoin.className = 'joinMessage';
+    newUserJoin.id = 'joinMessage';
+    newUserJoinBody.className = 'messageBody';
+    newUserJoinBodyP.innerHTML = `${pseudo} has joined the channel`;
+    newUserJoinDate.innerHTML = `${date}`;
+
+    this.messages.appendChild(newUserJoin);
+    newUserJoin.appendChild(newUserJoinBody);
+    newUserJoinBody.appendChild(newUserJoinBodyP);
+    newUserJoin.appendChild(newUserJoinDate);
   }
 
   hideLogIn() {
@@ -83,12 +97,12 @@ export default class Chat {
     this.hasPseudo();
 
     socket.on('newUser', (pseudo) => {
-      this.messages.innerHTML = this.renderUserJoin(pseudo);
+      this.renderUserJoin(pseudo);
       this.renderNewUserInList(pseudo);
     });
 
     socket.on('userLeave', (pseudo) => {
-      this.messages.innerHTML = this.renderUserLeave(pseudo);
+      this.renderUserLeave(pseudo);
     });
   }
 }
