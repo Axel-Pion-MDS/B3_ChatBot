@@ -9,20 +9,23 @@ export default class Chat {
     this.userPseudo = document.querySelector('#logIn');
     this.chatContainer = document.querySelector('#chat');
     this.logInContainer = document.querySelector('#logIn');
+    this.messages = document.querySelector('#messages');
 
     this.run();
   }
 
-  /*
-  renderUserJoin(element, content) {
-    const newElement = document.createElement('div');
+  renderUserJoin(pseudo) {
+    const date = new Date().toLocaleString();
 
-    switch (element) {
-      case 'newUser':
-        newElement.classList.add(element);
-    }
+    return `
+      <div class="joinMessage" id="joinMessage">
+        <div class="messageBody">
+          <p>${pseudo} has joined the channel</p>
+        </div>
+        <small>${date}</small>
+      </div>
+    `;
   }
-  */
 
   hideLogIn() {
     this.chatContainer.classList.remove('hide');
@@ -57,8 +60,11 @@ export default class Chat {
   run() {
     this.userPseudo.innerHTML = this.renderUserLogIn();
     this.hasPseudo();
-//    socket.on('newUser', (pseudo) => {
-//      this.renderUserJoin(element, pseudo);
-//    })
+
+    console.log("before socket.on");
+    socket.on('newUser', (pseudo) => {
+      console.log("socket.on");
+      this.messages.innerHTML = this.renderUserJoin(pseudo);
+    });
   }
 }

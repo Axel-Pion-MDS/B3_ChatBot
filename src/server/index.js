@@ -21,6 +21,7 @@ io.on('connection', (socket) => {
   // detect the user's pseudo
   socket.on('pseudo', (pseudo) => {
     socket.pseudo = pseudo;
+    console.log(`${pseudo} has connected to the channel`);
     // emit to all users
     socket.broadcast.emit('newUser', pseudo);
   })
