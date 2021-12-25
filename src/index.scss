@@ -126,7 +126,7 @@ body {
             overflow: auto;
             scroll-behavior: auto;
 
-            .joinMessage {
+            #joinMessage, #leaveMessage {
               max-width: 40%;
               display: flex;
               flex-direction: column;

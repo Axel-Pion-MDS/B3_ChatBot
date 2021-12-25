@@ -18,13 +18,18 @@ app.get('/', (req, res) => {
 // TODO
 io.on('connection', (socket) => {
 
+  socket.on('disconnect', () => {
+    console.log(`${socket.pseudo} has disconnected from the channel`);
+    socket.broadcast.emit('userLeave', socket.pseudo);
+  });
+
   // detect the user's pseudo
   socket.on('pseudo', (pseudo) => {
     socket.pseudo = pseudo;
     console.log(`${pseudo} has connected to the channel`);
     // emit to all users
     socket.broadcast.emit('newUser', pseudo);
-  })
+  });
 });
 
 // ? Server listening

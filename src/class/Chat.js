@@ -14,6 +14,19 @@ export default class Chat {
     this.run();
   }
 
+  renderUserLeave(pseudo) {
+    const date = new Date().toLocaleString();
+
+    return `
+      <div class="leaveMessage" id="leaveMessage">
+        <div class="messageBody">
+          <p>${pseudo} has left the channel</p>
+        </div>
+        <small>${date}</small>
+      </div>
+    `;
+  }
+
   renderUserJoin(pseudo) {
     const date = new Date().toLocaleString();
 
@@ -61,10 +74,12 @@ export default class Chat {
     this.userPseudo.innerHTML = this.renderUserLogIn();
     this.hasPseudo();
 
-    console.log("before socket.on");
     socket.on('newUser', (pseudo) => {
-      console.log("socket.on");
       this.messages.innerHTML = this.renderUserJoin(pseudo);
+    });
+
+    socket.on('userLeave', (pseudo) => {
+      this.messages.innerHTML = this.renderUserLeave(pseudo);
     });
   }
 }
