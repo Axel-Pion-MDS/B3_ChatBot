@@ -9,6 +9,7 @@ export default class Chat {
     this.userPseudo = document.querySelector('#logIn');
     this.chatContainer = document.querySelector('#chat');
     this.logInContainer = document.querySelector('#logIn');
+    this.contacts = document.querySelector('#userList ul');
     this.messages = document.querySelector('#messages');
 
     this.run();
@@ -25,6 +26,13 @@ export default class Chat {
         <small>${date}</small>
       </div>
     `;
+  }
+
+  renderNewUserInList(pseudo) {
+    const newUserInList = document.createElement('li');
+    newUserInList.innerHTML = `${pseudo}`;
+    newUserInList.className = 'user';
+    this.contacts.appendChild(newUserInList);
   }
 
   renderUserJoin(pseudo) {
@@ -76,6 +84,7 @@ export default class Chat {
 
     socket.on('newUser', (pseudo) => {
       this.messages.innerHTML = this.renderUserJoin(pseudo);
+      this.renderNewUserInList(pseudo);
     });
 
     socket.on('userLeave', (pseudo) => {

@@ -103,11 +103,19 @@ body {
             li {
               list-style: none;
               width: 100%;
-              background: lightgrey;
               border-radius: 10px 10px 10px 10px;
               padding: 2px;
               margin: 5px auto 5px auto;
               text-align: center;
+
+            }
+
+            .bot {
+              background: lightgrey;
+            }
+
+            .user {
+              background: #a1d0e0;
             }
           }
         }
