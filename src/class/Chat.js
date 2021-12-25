@@ -15,6 +15,12 @@ export default class Chat {
     this.run();
   }
 
+  removeUserInList(pseudo) {
+    const userInListToDelete = document.getElementById(`userInList_${pseudo}`);
+
+    this.contacts.removeChild(userInListToDelete);
+  }
+
   renderUserLeave(pseudo) {
     const date = new Date().toLocaleString();
     const newUserJoin = document.createElement('div');
@@ -38,6 +44,7 @@ export default class Chat {
     const newUserInList = document.createElement('li');
 
     newUserInList.innerHTML = `${pseudo}`;
+    newUserInList.id = `userInList_${pseudo}`;
     newUserInList.className = 'user';
 
     this.contacts.appendChild(newUserInList);
@@ -103,6 +110,7 @@ export default class Chat {
 
     socket.on('userLeave', (pseudo) => {
       this.renderUserLeave(pseudo);
+      this.removeUserInList(pseudo);
     });
   }
 }
