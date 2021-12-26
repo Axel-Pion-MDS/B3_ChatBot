@@ -28,8 +28,13 @@ io.on('connection', (socket) => {
     socket.pseudo = pseudo;
     console.log(`${pseudo} has connected to the channel`);
     // emit to all users
-    socket.broadcast.emit('newUser', pseudo);
+    socket.broadcast.emit('userJoin', pseudo);
   });
+
+  socket.on('typingMessage', (message) => {
+     console.log(`${socket.pseudo} has sent : ${message}`);
+     socket.broadcast.emit('messageForOtherUsers', socket.pseudo, message);
+  })
 });
 
 // ? Server listening

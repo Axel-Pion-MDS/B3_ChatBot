@@ -15,6 +15,84 @@ export default class Chat {
     this.run();
   }
 
+  renderMessageForOtherUsers(pseudo, message) {
+    const userMessageDiv = document.createElement('div');
+    const messageBody = document.createElement('div');
+    const messageTitle = document.createElement('h4');
+    const userMessage = document.createElement('p');
+    const messageDate = document.createElement('small');
+    const date = new Date().toLocaleString();
+
+    userMessageDiv.className = 'message';
+    userMessageDiv.id = 'other';
+    messageBody.className = 'messageBody';
+    messageTitle.innerHTML = pseudo;
+    userMessage.innerHTML = message;
+    messageDate.innerHTML = date;
+
+    this.messages.appendChild(userMessageDiv);
+    userMessageDiv.appendChild(messageTitle);
+    userMessageDiv.appendChild(messageBody);
+    userMessageDiv.appendChild(messageDate);
+    messageBody.appendChild(userMessage);
+  }
+
+  renderUserMessage(message) {
+    const userMessageDiv = document.createElement('div');
+    const messageBody = document.createElement('div');
+    const messageTitle = document.createElement('h4');
+    const userMessage = document.createElement('p');
+    const messageDate = document.createElement('small');
+    const date = new Date().toLocaleString();
+
+    userMessageDiv.className = 'message';
+    userMessageDiv.id = 'you';
+    messageBody.className = 'messageBody';
+    messageTitle.innerHTML = 'You';
+    userMessage.innerHTML = message;
+    messageDate.innerHTML = date;
+
+    this.messages.appendChild(userMessageDiv);
+    userMessageDiv.appendChild(messageTitle);
+    userMessageDiv.appendChild(messageBody);
+    userMessageDiv.appendChild(messageDate);
+    messageBody.appendChild(userMessage);
+
+    socket.emit('typingMessage', message);
+  }
+
+  typingMessage() {
+    const el = document.querySelector('#messageInput input');
+    const btn = document.querySelector('#messageInput button');
+    const contentMessageEl = document.querySelector('#messages');
+
+    el.addEventListener('keypress', (e) => {
+      if (e.keyCode === 13 && !!e.currentTarget.value) {
+        const message = e.currentTarget.value;
+        e.currentTarget.value = '';
+        this.renderUserMessage(message)
+        // (() => new Message(message))();
+        //
+        // this.contacts.map((contact) => contact.getActions(this, message));
+        //
+        // contentMessageEl.innerHTML += this.renderTypedMessage(message);
+      }
+    });
+    btn.addEventListener('click', (e) => {
+      const btnParent = btn.parentElement;
+      if (btnParent && !!btnParent.querySelector('#messageInput input').value) {
+        const message = btnParent.querySelector('#messageInput input').value;
+        e.currentTarget.value = '';
+        this.renderUserMessage(message)
+        // (() => new Message(message))();
+        //
+        // this.contacts.map((contact) => contact.getActions(this, message));
+        //
+        // contentMessageEl.innerHTML += this.renderTypedMessage(message);
+      }
+    });
+  }
+
   removeUserInList(pseudo) {
     const userInListToDelete = document.getElementById(`userInList_${pseudo}`);
 
@@ -103,7 +181,7 @@ export default class Chat {
     this.userPseudo.innerHTML = this.renderUserLogIn();
     this.hasPseudo();
 
-    socket.on('newUser', (pseudo) => {
+    socket.on('userJoin', (pseudo) => {
       this.renderUserJoin(pseudo);
       this.renderNewUserInList(pseudo);
     });
@@ -112,5 +190,11 @@ export default class Chat {
       this.renderUserLeave(pseudo);
       this.removeUserInList(pseudo);
     });
+
+    socket.on('messageForOtherUsers', (pseudo, message) => {
+      this.renderMessageForOtherUsers(pseudo, message);
+    });
+
+    this.typingMessage();
   }
 }
