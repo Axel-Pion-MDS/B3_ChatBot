@@ -15,25 +15,28 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'));
 });
 
+const users = {};
+
 // TODO
 io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`${socket.pseudo} has disconnected from the channel`);
-    socket.broadcast.emit('userLeave', socket.pseudo);
+    socket.broadcast.emit('userLeave', users[socket.id]);
+    delete users[socket.id];
   });
 
-  // detect the user's pseudo
   socket.on('pseudo', (pseudo) => {
+    users[socket.id] = pseudo;
     socket.pseudo = pseudo;
     console.log(`${pseudo} has connected to the channel`);
-    // emit to all users
     socket.broadcast.emit('userJoin', pseudo);
+    socket.emit('userList', users);
   });
 
   socket.on('typingMessage', (message) => {
-    console.log(`${socket.pseudo} has sent : ${message}`);
-    socket.broadcast.emit('messageForOtherUsers', socket.pseudo, message);
+    console.log(`${socket.pseudo} / ${users[socket.id]} has sent : ${message}`);
+    socket.broadcast.emit('messageForOtherUsers', users[socket.id], message);
   })
 });
 

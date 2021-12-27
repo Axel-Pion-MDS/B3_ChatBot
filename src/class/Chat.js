@@ -120,6 +120,31 @@ export default class Chat {
     newUserJoin.appendChild(newUserJoinDate);
   }
 
+  renderUserList(socketData) {
+    const toStr = JSON.stringify(socketData);
+    const usersTab = [];
+
+    JSON.parse(toStr, (key, value) => {
+      if (typeof (value) === 'string') {
+        usersTab.push(value);
+      }
+    });
+
+    usersTab.pop();
+
+    usersTab.map((user) => {
+      const newUserInList = document.createElement('li');
+
+      newUserInList.innerHTML = `${user}`;
+      newUserInList.id = `userInList_${user}`;
+      newUserInList.className = 'user';
+
+      this.contacts.appendChild(newUserInList);
+
+      return (user);
+    });
+  }
+
   renderNewUserInList(pseudo) {
     const newUserInList = document.createElement('li');
 
@@ -202,6 +227,10 @@ export default class Chat {
     socket.on('userJoin', (pseudo) => {
       this.renderUserJoin(pseudo);
       this.renderNewUserInList(pseudo);
+    });
+
+    socket.on('userList', (socketData) => {
+      this.renderUserList(socketData);
     });
 
     socket.on('userLeave', (pseudo) => {
