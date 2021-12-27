@@ -13,8 +13,16 @@ export default class Chat {
     this.botList = document.querySelector('#userListBots');
     this.contacts = document.querySelector('#userListUsers');
     this.messages = document.querySelector('#messages');
+    this.isWriting = document.querySelector('#writingNotification');
 
     this.run();
+  }
+
+  renderUserIsWriting(pseudo) {
+    console.log("bite");
+    return `
+    <p class="singlePerson"> ${pseudo} is typing...</p>
+    `;
   }
 
   renderMessageForOtherUsers(pseudo, message) {
@@ -78,6 +86,9 @@ export default class Chat {
         // this.contacts.map((contact) => contact.getActions(this, message));
         //
         // contentMessageEl.innerHTML += this.renderTypedMessage(message);
+      }
+      else if (e.keyCode !== 13 && !!e.currentTarget.value) {
+        socket.emit('userIsWriting', this.pseudo);
       }
     });
     btn.addEventListener('click', (e) => {
@@ -185,7 +196,6 @@ export default class Chat {
   }
 
   renderBots() {
-    console.log(this.bots);
     this.bots.map((contact) => this.renderBot(contact)).join('');
   }
 
@@ -241,6 +251,10 @@ export default class Chat {
     socket.on('messageForOtherUsers', (pseudo, message) => {
       this.renderMessageForOtherUsers(pseudo, message);
     });
+
+    socket.on('writingUser', (pseudo) => {
+      this.isWriting.innerHTML = this.renderUserIsWriting(pseudo);
+    })
 
     this.typingMessage();
   }

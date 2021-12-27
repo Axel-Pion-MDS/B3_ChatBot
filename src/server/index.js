@@ -38,6 +38,10 @@ io.on('connection', (socket) => {
     console.log(`${socket.pseudo} / ${users[socket.id]} has sent : ${message}`);
     socket.broadcast.emit('messageForOtherUsers', users[socket.id], message);
   })
+
+  socket.on('userIsWriting', (pseudo) => {
+  socket.broadcast.emit('writingUser', pseudo);
+  })
 });
 
 // ? Server listening
