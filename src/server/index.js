@@ -40,7 +40,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('userIsWriting', (pseudo) => {
-  socket.broadcast.emit('writingUser', pseudo);
+    socket.broadcast.emit('writingUser', pseudo);
+  })
+
+  socket.on('userIsNotWriting', (pseudo) => {
+    socket.broadcast.emit('notWritingUser');
   })
 });
 

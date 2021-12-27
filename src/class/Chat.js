@@ -18,10 +18,15 @@ export default class Chat {
     this.run();
   }
 
-  renderUserIsWriting(pseudo) {
-    console.log("bite");
+  renderUserIsNotWriting() {
     return `
-    <p class="singlePerson"> ${pseudo} is typing...</p>
+    <p class="singlePerson hide"></p>
+    `;
+  }
+
+  renderUserIsWriting(pseudo) {
+    return `
+    <p class="singlePerson show"> ${pseudo} is typing...</p>
     `;
   }
 
@@ -74,28 +79,29 @@ export default class Chat {
   typingMessage() {
     const el = document.querySelector('#messageInput input');
     const btn = document.querySelector('#messageInput button');
-    const contentMessageEl = document.querySelector('#messages');
+    // const contentMessageEl = document.querySelector('#messages');
 
     el.addEventListener('keypress', (e) => {
       if (e.keyCode === 13 && !!e.currentTarget.value) {
         const message = e.currentTarget.value;
         e.currentTarget.value = '';
+        socket.emit('userIsNotWriting');
         this.renderUserMessage(message);
         // (() => new Message(message))();
         //
         // this.contacts.map((contact) => contact.getActions(this, message));
         //
         // contentMessageEl.innerHTML += this.renderTypedMessage(message);
-      }
-      else if (e.keyCode !== 13 && !!e.currentTarget.value) {
+      } else if (e.keyCode !== 13 && !!e.currentTarget.value) {
         socket.emit('userIsWriting', this.pseudo);
       }
     });
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const btnParent = btn.parentElement;
       if (btnParent && !!btnParent.querySelector('#messageInput input').value) {
         const message = btnParent.querySelector('#messageInput input').value;
         btnParent.querySelector('#messageInput input').value = '';
+        socket.emit('userIsNotWriting');
         this.renderUserMessage(message);
         // (() => new Message(message))();
         //
@@ -142,7 +148,6 @@ export default class Chat {
     });
 
     usersTab.pop();
-    console.log(usersTab);
 
     usersTab.map((user) => {
       const newUserInList = document.createElement('li');
@@ -255,7 +260,11 @@ export default class Chat {
 
     socket.on('writingUser', (pseudo) => {
       this.isWriting.innerHTML = this.renderUserIsWriting(pseudo);
-    })
+    });
+
+    socket.on('notWritingUser', () => {
+      this.isWriting.innerHTML = this.renderUserIsNotWriting();
+    });
 
     this.typingMessage();
   }
