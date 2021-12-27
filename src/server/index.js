@@ -32,8 +32,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('typingMessage', (message) => {
-     console.log(`${socket.pseudo} has sent : ${message}`);
-     socket.broadcast.emit('messageForOtherUsers', socket.pseudo, message);
+    console.log(`${socket.pseudo} has sent : ${message}`);
+    socket.broadcast.emit('messageForOtherUsers', socket.pseudo, message);
   })
 });
 

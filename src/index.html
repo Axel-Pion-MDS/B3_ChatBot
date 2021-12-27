@@ -21,26 +21,31 @@
           </div>
           <div class="userListMessageContainer">
             <div class="userList" id="userList">
-              <ul>
-                <li class="bot">Maengdok</li>
-                <li class="bot">Haneul</li>
-                <li class="bot">Sinhwa</li>
+              <h4 class="userListTitle">Bots</h4>
+              <ul id="userListBots">
+              </ul>
+              <h4 class="userListTitle">Users</h4>
+              <ul id="userListUsers">
+
               </ul>
             </div>
             <div class="messageContainer" id="messageContainer">
               <div class="messages" id="messages">
-                <!-- TODO -->
-              <div class="writingNotification">
-                <p class="singlePerson hide">Haneul is typing...</p>
-                <p class="manyPersons show">Haneul and 2 more persons are typing...</p>
               </div>
+                <!-- TODO -->
+              <div class="messageInputWritingNotification">
+                <div class="writingNotification">
+                  <p class="singlePerson hide">Haneul is typing...</p>
+                  <p class="manyPersons show">Haneul and 2 more persons are typing...</p>
+                </div>
                 <!-- !TODO -->
-              <div class="messageInput" id="messageInput">
-                <label for="userInput"></label>
-                <input type="text" id="userInput" autofocus>
-                <button type="button">
-                  <p>></p>
-                </button>
+                <div class="messageInput" id="messageInput">
+                  <label for="userInput"></label>
+                  <input type="text" id="userInput" autofocus>
+                  <button type="button">
+                    <p>></p>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

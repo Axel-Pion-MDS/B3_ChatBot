@@ -3,13 +3,15 @@ const io = require('socket.io-client');
 const socket = io.connect('http://localhost:3000');
 
 export default class Chat {
-  constructor() {
+  constructor(contacts) {
+    this.bots = contacts;
     this.pseudo = '';
 
     this.userPseudo = document.querySelector('#logIn');
     this.chatContainer = document.querySelector('#chat');
     this.logInContainer = document.querySelector('#logIn');
-    this.contacts = document.querySelector('#userList ul');
+    this.botList = document.querySelector('#userListBots');
+    this.contacts = document.querySelector('#userListUsers');
     this.messages = document.querySelector('#messages');
 
     this.run();
@@ -70,7 +72,7 @@ export default class Chat {
       if (e.keyCode === 13 && !!e.currentTarget.value) {
         const message = e.currentTarget.value;
         e.currentTarget.value = '';
-        this.renderUserMessage(message)
+        this.renderUserMessage(message);
         // (() => new Message(message))();
         //
         // this.contacts.map((contact) => contact.getActions(this, message));
@@ -82,8 +84,8 @@ export default class Chat {
       const btnParent = btn.parentElement;
       if (btnParent && !!btnParent.querySelector('#messageInput input').value) {
         const message = btnParent.querySelector('#messageInput input').value;
-        e.currentTarget.value = '';
-        this.renderUserMessage(message)
+        btnParent.querySelector('#messageInput input').value = '';
+        this.renderUserMessage(message);
         // (() => new Message(message))();
         //
         // this.contacts.map((contact) => contact.getActions(this, message));
@@ -147,6 +149,21 @@ export default class Chat {
     newUserJoin.appendChild(newUserJoinDate);
   }
 
+  renderBot(contact) {
+    const newLi = document.createElement('li');
+
+    newLi.className = 'bot';
+    newLi.id = `${contact.bot.name}`;
+    newLi.innerHTML = `${contact.bot.name}`;
+
+    this.botList.appendChild(newLi);
+  }
+
+  renderBots() {
+    console.log(this.bots);
+    this.bots.map((contact) => this.renderBot(contact)).join('');
+  }
+
   hideLogIn() {
     this.chatContainer.classList.remove('hide');
     this.chatContainer.classList.add('show');
@@ -180,6 +197,7 @@ export default class Chat {
   run() {
     this.userPseudo.innerHTML = this.renderUserLogIn();
     this.hasPseudo();
+    this.renderBots();
 
     socket.on('userJoin', (pseudo) => {
       this.renderUserJoin(pseudo);
