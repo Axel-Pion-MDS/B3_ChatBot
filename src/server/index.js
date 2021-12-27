@@ -19,6 +19,7 @@ const users = {};
 
 // TODO
 io.on('connection', (socket) => {
+  socket.emit('userList', users);
 
   socket.on('disconnect', () => {
     console.log(`${socket.pseudo} has disconnected from the channel`);
@@ -31,7 +32,6 @@ io.on('connection', (socket) => {
     socket.pseudo = pseudo;
     console.log(`${pseudo} has connected to the channel`);
     socket.broadcast.emit('userJoin', pseudo);
-    socket.emit('userList', users);
   });
 
   socket.on('typingMessage', (message) => {

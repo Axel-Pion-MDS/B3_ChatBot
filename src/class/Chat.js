@@ -142,6 +142,7 @@ export default class Chat {
     });
 
     usersTab.pop();
+    console.log(usersTab);
 
     usersTab.map((user) => {
       const newUserInList = document.createElement('li');
