@@ -314,7 +314,7 @@ export default class Chat {
 
     socket.on('botMessageToOthers', (message) => {
       this.renderBotMessageForOthers(message);
-    })
+    });
 
     this.typingMessage();
   }

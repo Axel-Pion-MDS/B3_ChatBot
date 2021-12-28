@@ -1,8 +1,7 @@
+import Pokedex from 'pokedex-promise-v2';
 import Bot from './class/Bot';
 import Chat from './class/Chat';
 import './index.scss';
-
-const Pokedex = require('pokedex-promise-v2');
 
 const bots = [{
   name: 'Maengdok',
