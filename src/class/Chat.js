@@ -38,6 +38,7 @@ export default class Chat {
     botMessageDiv.appendChild(messageDate);
     messageBody.appendChild(botMessage);
     this.messages.appendChild(botMessageDiv);
+    botMessageDiv.scrollIntoView(false);
   }
 
   renderBotMessage(message) {
@@ -60,6 +61,7 @@ export default class Chat {
     botMessageDiv.appendChild(messageDate);
     messageBody.appendChild(botMessage);
     this.messages.appendChild(botMessageDiv);
+    botMessageDiv.scrollIntoView(false);
 
     socket.emit('botMessageForOthers', message);
   }
@@ -96,6 +98,7 @@ export default class Chat {
     userMessageDiv.appendChild(messageBody);
     userMessageDiv.appendChild(messageDate);
     messageBody.appendChild(userMessage);
+    userMessageDiv.scrollIntoView(false);
   }
 
   renderUserMessage(message) {
@@ -118,6 +121,7 @@ export default class Chat {
     userMessageDiv.appendChild(messageBody);
     userMessageDiv.appendChild(messageDate);
     messageBody.appendChild(userMessage);
+    userMessageDiv.scrollIntoView(false);
 
     socket.emit('typingMessage', message);
   }
@@ -125,7 +129,6 @@ export default class Chat {
   typingMessage() {
     const el = document.querySelector('#messageInput input');
     const btn = document.querySelector('#messageInput button');
-    // const contentMessageEl = document.querySelector('#messages');
 
     el.addEventListener('keypress', (e) => {
       if (e.keyCode === 13 && !!e.currentTarget.value) {
@@ -134,10 +137,6 @@ export default class Chat {
         socket.emit('userIsNotWriting');
         this.bots.map((contact) => contact.getActions(this, message));
         this.renderUserMessage(message);
-        // (() => new Message(message))();
-        //
-        //
-        // contentMessageEl.innerHTML += this.renderTypedMessage(message);
       } else if (e.keyCode !== 13 && !!e.currentTarget.value) {
         socket.emit('userIsWriting', this.pseudo);
       }
@@ -148,12 +147,13 @@ export default class Chat {
         const message = btnParent.querySelector('#messageInput input').value;
         btnParent.querySelector('#messageInput input').value = '';
         socket.emit('userIsNotWriting');
+        this.bots.map((contact) => contact.getActions(this, message));
         this.renderUserMessage(message);
-        // (() => new Message(message))();
-        //
-        // this.contacts.map((contact) => contact.getActions(this, message));
-        //
-        // contentMessageEl.innerHTML += this.renderTypedMessage(message);
+      }
+    });
+    el.addEventListener('blur', () => {
+      if (el.value === '') {
+        socket.emit('userIsNotWriting');
       }
     });
   }
@@ -166,21 +166,22 @@ export default class Chat {
 
   renderUserLeave(pseudo) {
     const date = new Date().toLocaleString();
-    const newUserJoin = document.createElement('div');
-    const newUserJoinBody = document.createElement('div');
-    const newUserJoinBodyP = document.createElement('p');
-    const newUserJoinDate = document.createElement('small');
+    const userLeave = document.createElement('div');
+    const userLeaveBody = document.createElement('div');
+    const userLeaveBodyP = document.createElement('p');
+    const userLeaveDate = document.createElement('small');
 
-    newUserJoin.className = 'leaveMessage';
-    newUserJoin.id = 'leaveMessage';
-    newUserJoinBody.className = 'messageBody';
-    newUserJoinBodyP.innerHTML = `${pseudo} has left the channel`;
-    newUserJoinDate.innerHTML = `${date}`;
+    userLeave.className = 'joinMessage';
+    userLeave.id = 'joinMessage';
+    userLeaveBody.className = 'messageBody';
+    userLeaveBodyP.innerHTML = `${pseudo} has left the channel`;
+    userLeaveDate.innerHTML = `${date}`;
 
-    this.messages.appendChild(newUserJoin);
-    newUserJoin.appendChild(newUserJoinBody);
-    newUserJoinBody.appendChild(newUserJoinBodyP);
-    newUserJoin.appendChild(newUserJoinDate);
+    this.messages.appendChild(userLeave);
+    userLeave.appendChild(userLeaveBody);
+    userLeaveBody.appendChild(userLeaveBodyP);
+    userLeave.appendChild(userLeaveDate);
+    userLeave.scrollIntoView(false);
   }
 
   renderUserList(socketData) {
@@ -235,6 +236,8 @@ export default class Chat {
     newUserJoin.appendChild(newUserJoinBody);
     newUserJoinBody.appendChild(newUserJoinBodyP);
     newUserJoin.appendChild(newUserJoinDate);
+    newUserJoin.scrollIntoView(false);
+
   }
 
   renderBot(contact) {

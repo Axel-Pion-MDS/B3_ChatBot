@@ -1,12 +1,19 @@
 @charset "utf-8";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
+
+html {
+  height: 100vh;
 }
 
 body {
+  background: linear-gradient(320deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgba(0,212,255,1) 100%);
+  height: 100%;
+
   .hide {
     display: none;
   }
@@ -26,7 +33,7 @@ body {
 
   .container {
     width: 100%;
-    height: 700px;
+    height: 800px;
 
     .logIn {
       height: 100%;
@@ -88,13 +95,14 @@ body {
     .userListMessageContainer {
       display: flex;
       flex-direction: row;
-      height: 646px;
+      height: 746px;
 
       .userList {
         width: 20%;
         height: 100%;
         background: rgb(65, 65, 65);
         border-radius: 0 0 0 10px;
+        overflow: auto;
 
         .userListTitle {
           width: 60%;
@@ -130,9 +138,11 @@ body {
 
       .messageContainer {
         width: 80%;
-        height: 636px;
+        height: 100%;
         display: flex;
         flex-direction: column;
+        background: white;
+        border-radius: 0 0 7px 0;
 
         .messages {
           width: 100%;
