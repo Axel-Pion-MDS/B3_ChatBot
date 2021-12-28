@@ -18,6 +18,52 @@ export default class Chat {
     this.run();
   }
 
+  renderBotMessageForOthers(message) {
+    const botMessageDiv = document.createElement('div');
+    const messageBody = document.createElement('div');
+    const messageTitle = document.createElement('h4');
+    const botMessage = document.createElement('p');
+    const messageDate = document.createElement('small');
+    const date = new Date().toLocaleString();
+
+    botMessageDiv.className = 'message';
+    botMessageDiv.id = 'other';
+    messageBody.className = 'messageBody';
+    messageTitle.innerHTML = message.name;
+    botMessage.innerHTML = message.msg;
+    messageDate.innerHTML = date;
+
+    botMessageDiv.appendChild(messageTitle);
+    botMessageDiv.appendChild(messageBody);
+    botMessageDiv.appendChild(messageDate);
+    messageBody.appendChild(botMessage);
+    this.messages.appendChild(botMessageDiv);
+  }
+
+  renderBotMessage(message) {
+    const botMessageDiv = document.createElement('div');
+    const messageBody = document.createElement('div');
+    const messageTitle = document.createElement('h4');
+    const botMessage = document.createElement('p');
+    const messageDate = document.createElement('small');
+    const date = new Date().toLocaleString();
+
+    botMessageDiv.className = 'message';
+    botMessageDiv.id = 'other';
+    messageBody.className = 'messageBody';
+    messageTitle.innerHTML = message.name;
+    botMessage.innerHTML = message.msg;
+    messageDate.innerHTML = date;
+
+    botMessageDiv.appendChild(messageTitle);
+    botMessageDiv.appendChild(messageBody);
+    botMessageDiv.appendChild(messageDate);
+    messageBody.appendChild(botMessage);
+    this.messages.appendChild(botMessageDiv);
+
+    socket.emit('botMessageForOthers', message);
+  }
+
   renderUserIsNotWriting() {
     return `
     <p class="singlePerson hide"></p>
@@ -86,10 +132,10 @@ export default class Chat {
         const message = e.currentTarget.value;
         e.currentTarget.value = '';
         socket.emit('userIsNotWriting');
+        this.bots.map((contact) => contact.getActions(this, message));
         this.renderUserMessage(message);
         // (() => new Message(message))();
         //
-        // this.contacts.map((contact) => contact.getActions(this, message));
         //
         // contentMessageEl.innerHTML += this.renderTypedMessage(message);
       } else if (e.keyCode !== 13 && !!e.currentTarget.value) {
@@ -265,6 +311,10 @@ export default class Chat {
     socket.on('notWritingUser', () => {
       this.isWriting.innerHTML = this.renderUserIsNotWriting();
     });
+
+    socket.on('botMessageToOthers', (message) => {
+      this.renderBotMessageForOthers(message);
+    })
 
     this.typingMessage();
   }

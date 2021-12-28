@@ -73,9 +73,9 @@ const bots = [{
         return ` 
             - <strong>help</strong> / <strong>aide</strong> : Get available commands
             <br>
-            - <strong>sky</strong> / <strong>ciel</strong> : Get a fact from SKY acronym in South Korea
+            - <strong>sky</strong> / <strong>ciel</strong> : Get a fact about the SKY acronym in South Korea
             <br>
-            - <strong>nasa</strong> / <strong>mars</strong> : Get a random picture from Mars
+            - <strong>nasa</strong> / <strong>mars</strong> : Get a random picture of Mars
           `;
       }
     },
@@ -147,9 +147,9 @@ const bots = [{
         return ` 
             - <strong>help</strong> / <strong>aide</strong> : Get available commands
             <br>
-            - <strong>trigram</strong> / <strong>bagua</strong> : Get a picture from a Ba Gua
+            - <strong>trigram</strong> / <strong>bagua</strong> : Get a picture of a Ba Gua
             <br>
-            - <strong>food</strong> country / <strong>plat</strong> country : Get a picture from a random dish made in the wanted country
+            - <strong>food</strong> country / <strong>plat</strong> country : Get a picture of a random dish made in the wanted country
             <br>
             <small>e.g: food korean</small>
           `;

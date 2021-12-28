@@ -8,7 +8,6 @@ export default class Action {
     this.title = title;
     this.cmd = cmd;
     this.action = action;
-    this.messages = document.querySelector('#messages');
 
     this.runAction(userMessage, chat, bot);
   }
@@ -39,6 +38,7 @@ export default class Action {
     const msg = message.split(' ');
     const command = msg[0];
     const param = msg[1];
+
     if (this.cmd.includes(command)) {
       const promise = this.action(param);
       const botMessage = {
@@ -47,10 +47,10 @@ export default class Action {
       };
       promise.then((value) => {
         botMessage.msg = value;
-        this.messages.innerHTML += chat.renderMessage(botMessage);
+        chat.renderBotMessage(botMessage);
       }, (error) => {
         botMessage.msg = error;
-        this.messages.innerHTML += chat.renderMessage(botMessage);
+        chat.renderBotMessage(botMessage);
       });
     }
   }

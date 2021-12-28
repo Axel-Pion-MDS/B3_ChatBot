@@ -46,6 +46,10 @@ io.on('connection', (socket) => {
   socket.on('userIsNotWriting', (pseudo) => {
     socket.broadcast.emit('notWritingUser');
   })
+
+  socket.on('botMessageForOthers', (message) => {
+    socket.broadcast.emit('botMessageToOthers', message);
+  })
 });
 
 // ? Server listening
