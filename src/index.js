@@ -15,6 +15,8 @@ const bots = [{
           <br>
           - <strong>dice</strong> / <strong>dés</strong> : Get a random number from 0 to 100
           <br>
+          - <strong>MyDigitalSchool</strong> : Get the address of My Digital School
+          <br> 
           - <strong>pokedex</strong> name / <strong>pokemon</strong> name : Get the sprite of a wanted Pokemon
           <br>
           <small>e.g: pokedex eevee</small>
@@ -30,7 +32,7 @@ const bots = [{
     },
     {
       title: 'Common Command',
-      cmd: ['MDS', 'mds', 'MyDigitalSchool'],
+      cmd: ['MyDigitalSchool'],
       async action() {
         return `
           11, rue de Cambrai
@@ -74,6 +76,8 @@ const bots = [{
             <br>
             - <strong>sky</strong> / <strong>ciel</strong> : Get a fact about the SKY acronym in South Korea
             <br>
+            - <strong>MDS</strong> : Get a fact about My Digital School
+            <br>
             - <strong>nasa</strong> / <strong>mars</strong> : Get a random picture of Mars
           `;
       }
@@ -90,16 +94,10 @@ const bots = [{
     },
     {
       title: 'Common Command',
-      cmd: ['MDS', 'mds', 'MyDigitalSchool'],
+      cmd: ['MDS'],
       async action() {
         return `
-            11, rue de Cambrai
-            <br>
-            Parc du Pont de Flandre
-            <br>
-            Bâtiment 33
-            <br>
-            75019 Paris
+            The pedagogy isn't the main subject of this school.
           `;
       }
     },
@@ -120,7 +118,7 @@ const bots = [{
                   .photos[Math.floor(Math.random() * (result.photos.length))]
                   .img_src;
                 const img = `
-                    <img src="${getImg}" width="300" height="200" alt="nasaPicture">
+                    <img src="${getImg}" width="100%" height="100%" alt="nasaPicture">
                     <br>
                     <a href="${getImg}" style="color:white;" target="_blank">Taille réelle</a>
                   `;
@@ -148,6 +146,8 @@ const bots = [{
             <br>
             - <strong>trigram</strong> / <strong>bagua</strong> : Get a picture of a Ba Gua
             <br>
+            - <strong>mds</strong>: Get the URL of the school
+            <br>
             - <strong>food</strong> country / <strong>plat</strong> country : Get a picture of a random dish made in the wanted country
             <br>
             <small>e.g: food korean</small>
@@ -159,7 +159,7 @@ const bots = [{
       cmd: ['trigram', 'Trigram', 'trigramme', 'Trigramme', 'bagua', 'BaGua', 'ba gua', 'Ba Gua'],
       async action() {
         return `
-           <img src="https://static.blog4ever.com/2010/09/435235/artimage_435235_3165434_201101180501259.jpg" width="200" height="200">
+           <img src="https://static.blog4ever.com/2010/09/435235/artimage_435235_3165434_201101180501259.jpg" width="100%" height="100%">
            <br>
            <a href="https://static.blog4ever.com/2010/09/435235/artimage_435235_3165434_201101180501259.jpg" style="color:white;" target="_blank">Full Size</a>
           `;
@@ -167,16 +167,10 @@ const bots = [{
     },
     {
       title: 'Common Command',
-      cmd: ['MDS', 'mds', 'MyDigitalSchool'],
+      cmd: ['mds'],
       async action() {
         return `
-            11, rue de Cambrai
-            <br>
-            Parc du Pont de Flandre
-            <br>
-            Bâtiment 33
-            <br>
-            75019 Paris
+            <a href="https://www.mydigitalschool.com/" target="_blank">My Digital School website</a>
           `;
       }
     },
@@ -200,7 +194,7 @@ const bots = [{
                 const msg = `
                     <strong>${getTitle}</strong>
                     <br>
-                    <img src="${getImg}" width="300" height="200" alt="countryFood">
+                    <img src="${getImg}" width="100%" height="100%" alt="countryFood">
                     <br>
                     <a href="${getImg}" style="color:white;" target="_blank">Full Size</a>
                   `;

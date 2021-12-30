@@ -237,7 +237,6 @@ export default class Chat {
     newUserJoinBody.appendChild(newUserJoinBodyP);
     newUserJoin.appendChild(newUserJoinDate);
     newUserJoin.scrollIntoView(false);
-
   }
 
   renderBot(contact) {
