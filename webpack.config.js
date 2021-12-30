@@ -29,6 +29,10 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: ['style-loader','css-loader','sass-loader']
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'file-loader',
       }
     ]
   },
@@ -41,7 +45,7 @@ module.exports = {
     })
   ],
   devServer: {
-    host: '127.0.0.1',
+    host: '192.168.1.72',
     port: 9090,
     hot: true,
     open: true,
