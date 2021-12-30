@@ -1,34 +1,55 @@
-# Hello World
+# Chabot x Socket.io
 
-## Installation
+## Install
 
-Use the package manager [npm](https://www.npmjs.com/) to install helloworld.
+`npm install`
 
-Use node v14 use :
-```bash
-nvm install 14
+## Run server
+
+`cd ./src/server/`
+`node index.js`
+
+## Run front
+
+`cd ./src/`
+`yarn start`
+
+## Make it work on the same network
+
+### ./src/server/server.js
+
+```diff
+# line 5
+const io = require('socket.io')(server, {
+  cors: {
+-    origin: 'http://192.168.1.72:9090',
++    origin: 'http://yourLocaleIp:9090',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true
+  }
+});
 ```
 
-```bash
-npm i
+### ./src/class/Chat.js
+
+```diff
+# line 3
+- const socket = io.connect('http://192.168.1.72:3000');
++ const socket = io.connect('http://yourLocaleIp:3000');
 ```
 
-## Usage
+### ./webpack.config.js
 
-Start the application dev with :
+```diff
+# line 48
 
-```bash
-npm run start
-```
-
-Created the dist with :
-
-```bash
-npm run dist
-```
-
-Analyse the coding rules with :
-
-```bash
-npm run lint
+  devServer: {
+-    host: '192.168.1.72',
++    host: 'yourLocaleIp',
+    port: 9090,
+    hot: true,
+    open: true,
+    inline: true
+  }
 ```
