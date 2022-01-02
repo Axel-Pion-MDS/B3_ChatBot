@@ -1,7 +1,7 @@
 import Action from './Action';
 
 /**
- *
+ * Class used for bots
  */
 export default class Bot {
   constructor(bot) {
@@ -9,7 +9,8 @@ export default class Bot {
   }
 
   /**
-   *
+   * Returns bot's name
+   * 
    * @returns bot.name
    */
   getName() {
@@ -17,7 +18,9 @@ export default class Bot {
   }
 
   /**
-   *
+   * Calls the bot's actions using the Action class
+   * Returns the bot's actions
+   * 
    * @param {*} Chat
    * @param {*} userMessage
    * @returns bot.actions
