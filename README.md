@@ -53,3 +53,9 @@ const io = require('socket.io')(server, {
     inline: true
   }
 ```
+
+## In case of ERR on `aggregate-error`
+
+An error with the `aggregate-error` package can sometimes randomly happens while compiling the project.
+
+If the error occurs, copy-paste the content of `./src/assert/aggregate-error.recovery.js` into `node_modules/aggregate-error/index.js`
