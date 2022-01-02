@@ -2,6 +2,13 @@ const io = require('socket.io-client');
 
 const socket = io.connect('http://192.168.1.72:3000');
 
+/**
+ * Class used for the chatbot
+ * Including: 
+ * message renders, showing user list, 
+ * update user list, showing when a user is typing,
+ * user join and user leave message renders
+ */
 export default class Chat {
   constructor(contacts) {
     this.bots = contacts;
@@ -18,6 +25,11 @@ export default class Chat {
     this.run();
   }
 
+  /**
+   * Renders bot's message for other users
+   * 
+   * @param {*} message 
+   */
   renderBotMessageForOthers(message) {
     const botMessageDiv = document.createElement('div');
     const messageBody = document.createElement('div');
@@ -41,6 +53,11 @@ export default class Chat {
     botMessageDiv.scrollIntoView(false);
   }
 
+  /**
+   * Renders bot's message for the user that used the command
+   * 
+   * @param {*} message 
+   */
   renderBotMessage(message) {
     const botMessageDiv = document.createElement('div');
     const messageBody = document.createElement('div');
@@ -66,18 +83,35 @@ export default class Chat {
     socket.emit('botMessageForOthers', message);
   }
 
+  /**
+   * Hides the message when a user has finished to type a message
+   * 
+   * @returns 
+   */
   renderUserIsNotWriting() {
     return `
     <p class="singlePerson hide"></p>
     `;
   }
 
+  /**
+   * Renders a message when a user is typing
+   * 
+   * @param {*} pseudo 
+   * @returns
+   */
   renderUserIsWriting(pseudo) {
     return `
     <p class="singlePerson show"> ${pseudo} is typing...</p>
     `;
   }
 
+  /**
+   * Renders the user's message to other users
+   *
+   * @param {*} pseudo 
+   * @param {*} message 
+   */
   renderMessageForOtherUsers(pseudo, message) {
     const userMessageDiv = document.createElement('div');
     const messageBody = document.createElement('div');
@@ -101,6 +135,11 @@ export default class Chat {
     userMessageDiv.scrollIntoView(false);
   }
 
+  /**
+   * Renders user's message for himself
+   * 
+   * @param {*} message 
+   */
   renderUserMessage(message) {
     const userMessageDiv = document.createElement('div');
     const messageBody = document.createElement('div');
@@ -126,6 +165,9 @@ export default class Chat {
     socket.emit('typingMessage', message);
   }
 
+  /**
+   * Listen to user's event when pressing ENT or clicking on the send button in the input field
+   */
   typingMessage() {
     const el = document.querySelector('#messageInput input');
     const btn = document.querySelector('#messageInput button');
@@ -158,12 +200,22 @@ export default class Chat {
     });
   }
 
+  /**
+   * Removes the user that left the channel from the user list
+   * 
+   * @param {*} pseudo 
+   */
   removeUserInList(pseudo) {
     const userInListToDelete = document.getElementById(`userInList_${pseudo}`);
 
     this.contacts.removeChild(userInListToDelete);
   }
 
+  /**
+   * Renders a message when a user has left the channel
+   * 
+   * @param {*} pseudo 
+   */
   renderUserLeave(pseudo) {
     const date = new Date().toLocaleString();
     const userLeave = document.createElement('div');
@@ -184,6 +236,11 @@ export default class Chat {
     userLeave.scrollIntoView(false);
   }
 
+  /**
+   * Renders the user list using users saved from server
+   * 
+   * @param {*} socketData 
+   */
   renderUserList(socketData) {
     const toStr = JSON.stringify(socketData);
     const usersTab = [];
@@ -209,6 +266,11 @@ export default class Chat {
     });
   }
 
+  /**
+   * Adds the new user in the contact list
+   * 
+   * @param {*} pseudo 
+   */
   renderNewUserInList(pseudo) {
     const newUserInList = document.createElement('li');
 
@@ -219,6 +281,11 @@ export default class Chat {
     this.contacts.appendChild(newUserInList);
   }
 
+  /**
+   * Renders a message when a user has joined the channel
+   * 
+   * @param {*} pseudo 
+   */
   renderUserJoin(pseudo) {
     const date = new Date().toLocaleString();
     const newUserJoin = document.createElement('div');
@@ -239,6 +306,10 @@ export default class Chat {
     newUserJoin.scrollIntoView(false);
   }
 
+  /**
+   * Renders bots in the contact list
+   * @param {*} contact 
+   */
   renderBot(contact) {
     const newLi = document.createElement('li');
 
@@ -249,10 +320,16 @@ export default class Chat {
     this.botList.appendChild(newLi);
   }
 
+  /**
+   * Calls renderBot to render bots in the contact list
+   */
   renderBots() {
     this.bots.map((contact) => this.renderBot(contact)).join('');
   }
 
+  /**
+   * Hides the user login to show the chat
+   */
   hideLogIn() {
     this.chatContainer.classList.remove('hide');
     this.chatContainer.classList.add('show');
@@ -260,6 +337,9 @@ export default class Chat {
     this.logInContainer.classList.add('hide');
   }
 
+  /**
+   * Sends the value on the user login input to the server
+   */
   hasPseudo() {
     const btn = document.querySelector('#logIn button');
     btn.addEventListener('click', () => {
@@ -274,6 +354,11 @@ export default class Chat {
     });
   }
 
+  /**
+   * Renders the user login div
+   * 
+   * @returns 
+   */
   renderUserLogIn() {
     return `
       <div class="inputButton">
@@ -283,6 +368,9 @@ export default class Chat {
     `;
   }
 
+  /**
+   * Event listener
+   */
   run() {
     this.userPseudo.innerHTML = this.renderUserLogIn();
     this.hasPseudo();
