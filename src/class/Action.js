@@ -14,7 +14,7 @@ export default class Action {
 
   /**
    * Returns the action's title
-   * 
+   *
    * @returns
    */
   getTitle() {
@@ -23,7 +23,7 @@ export default class Action {
 
   /**
    * Returns the action's command
-   * 
+   *
    * @returns
    */
   getCommand() {
@@ -33,7 +33,7 @@ export default class Action {
   /**
    * Gets the argument when calling an action in chat
    * Calls the renderBotMessage of the Chat class to renders the answer of the called action
-   * 
+   *
    * @param {*} message
    * @param {*} chat
    * @param {*} bot

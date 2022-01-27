@@ -22,7 +22,7 @@
 # line 5
 const io = require('socket.io')(server, {
   cors: {
--    origin: 'http://192.168.1.72:9090',
+-    origin: 'http://127.0.0.1:9090',
 +    origin: 'http://yourLocaleIp:9090',
     methods: ['GET', 'POST'],
     allowedHeaders: ['my-custom-header'],
@@ -35,7 +35,7 @@ const io = require('socket.io')(server, {
 
 ```diff
 # line 3
-- const socket = io.connect('http://192.168.1.72:3000');
+- const socket = io.connect('http://127.0.0.1:3000');
 + const socket = io.connect('http://yourLocaleIp:3000');
 ```
 
@@ -45,7 +45,7 @@ const io = require('socket.io')(server, {
 # line 48
 
   devServer: {
--    host: '192.168.1.72',
+-    host: '127.0.0.1',
 +    host: 'yourLocaleIp',
     port: 9090,
     hot: true,

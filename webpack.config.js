@@ -45,7 +45,7 @@ module.exports = {
     })
   ],
   devServer: {
-    host: '192.168.1.72',
+    host: '127.0.0.1',
     port: 9090,
     hot: true,
     open: true,
