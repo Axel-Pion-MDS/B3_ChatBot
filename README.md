@@ -56,8 +56,28 @@ const io = require('socket.io')(server, {
   }
 ```
 
-## In case of ERR on `aggregate-error`
+## APIs
 
-An error with the `aggregate-error` package can sometimes randomly happens while compiling the project.
+### Omdb
 
-If the error occurs, copy-paste the content of `./src/assert/aggregate-error.recovery.js` into `node_modules/aggregate-error/index.js`
+Gets informations about a movie
+
+| Command | Parameter | Result |
+| ------- | --------- | ------ |
+| movie | interstellar | Returns informations about the Interstellar movie |
+
+### Nasa
+
+Gets a random picture of Mars
+
+| Command | Parameter | Result |
+| ------- | --------- | ------ |
+| nasa | Ø | Returns a random picture of Mars |
+
+### Spoonacular
+
+Gets a random picture of a dish from a country
+
+| Command | Parameter | Result |
+| ------- | --------- | ------ |
+| food | korean | Returns a random korean dish |
