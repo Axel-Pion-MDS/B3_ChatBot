@@ -1,5 +1,7 @@
 # Chabot x Socket.io
 
+![nodeJsVersion16.13.1](https://img.shields.io/badge/NodeJS-v.16.13.1-blue)
+
 ## Install
 
 `npm install`
