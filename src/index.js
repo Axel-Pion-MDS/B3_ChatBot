@@ -1,4 +1,3 @@
-import Pokedex from 'pokedex-promise-v2';
 import Bot from './class/Bot';
 import Chat from './class/Chat';
 import './index.scss';
@@ -17,9 +16,9 @@ const bots = [{
           <br>
           - <strong>MyDigitalSchool</strong> : Get the address of My Digital School
           <br> 
-          - <strong>pokedex</strong> name / <strong>pokemon</strong> name : Get the sprite of a wanted Pokemon
+          - <strong>movie</strong> title / <strong>film</strong> titre : Get the informations about a movie from its title
           <br>
-          <small>e.g: pokedex eevee</small>
+          <small>e.g: movie interstellar</small>
         `;
       }
     },
@@ -46,20 +45,24 @@ const bots = [{
       }
     },
     {
-      title: 'Pokedex',
-      cmd: ['Pokedex', 'pokedex', 'Pokemon', 'pokemon', 'Pokémon', 'pokémon'],
-      async action(pokemon) {
-        return new Promise((resolve, reject) => {
-          const P = new Pokedex();
-          P.getPokemonByName(pokemon) // with Promise
-            .then((response) => {
-              const img = `<img src="${response.sprites.front_default}" alt="pokeSprite">`;
-              resolve(img);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        });
+      title: 'Movie',
+      cmd: ['Movie', 'movie', 'Film', 'film'],
+      param: 'title',
+      async action(title) {
+        return fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=d8798360&t=${title}`)
+          .then((res) => res.json())
+          .then((dataReturn) => `
+            <img src="${dataReturn.Poster}" />
+            <h4>${dataReturn.Title}</h4>
+            <p>${dataReturn.Year}, Genre: ${dataReturn.Genre}</p>
+            <h6>Actors:</h6>
+            <p>${dataReturn.Actors}</p>
+            <h6>Plot:</h6>
+            <p>${dataReturn.Plot}</p>
+            <h6>Awards:</h6>
+            <p>${dataReturn.Awards}</p>
+          `)
+          .catch(() => 'Unknown movie.');
       }
     }
   ]
@@ -97,7 +100,7 @@ const bots = [{
       cmd: ['MDS'],
       async action() {
         return `
-            The pedagogy isn't the main subject of this school.
+            Guess I'm gonna leave that school for a new one.
           `;
       }
     },
@@ -105,31 +108,17 @@ const bots = [{
       title: 'Random Mars picture',
       cmd: ['Nasa', 'nasa', 'NASA', 'mars', 'Mars'],
       async action() {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          const token = 'u3uLrHJ0V4OBaLx12k1Oeo815osfmwqll0GZsYZs';
-          try {
-            request.open('GET', `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${token}`);
-
-            request.onload = () => {
-              const result = JSON.parse(request.response);
-              if (request.status >= 200 && request.status < 400) {
-                const getImg = result
-                  .photos[Math.floor(Math.random() * (result.photos.length))]
-                  .img_src;
-                const img = `
-                    <img src="${getImg}" width="100%" height="100%" alt="nasaPicture">
-                    <br>
-                    <a href="${getImg}" style="color:white;" target="_blank">Taille réelle</a>
-                  `;
-                resolve(img);
-              }
-            };
-            request.send();
-          } catch (error) {
-            reject(error);
-          }
-        });
+        return fetch('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=u3uLrHJ0V4OBaLx12k1Oeo815osfmwqll0GZsYZs')
+          .then((res) => res.json())
+          .then((dataReturn) => {
+            const rndm = Math.floor(Math.random() * (dataReturn.photos.length));
+            return `
+            <img src="${dataReturn.photos[rndm].img_src}" width="100%" height="100%" alt="nasaPicture">
+            <br>
+            <a href="${dataReturn.photos[rndm].img_src}" style="color:white;" target="_blank">Taille réelle</a>
+            `;
+          })
+          .catch(() => 'Couldn\'t fetch image from Mars.');
       }
     }
   ]
@@ -177,35 +166,21 @@ const bots = [{
     {
       title: 'Random Country Food',
       cmd: ['food', 'Food', 'recette', 'nourriture', 'Nourriture', 'plat', 'Plat'],
+      param: 'country',
       async action(country) {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          const token = '34d18592e33e441eada162bf7d27d881';
-          try {
-            request.open('GET', `https://api.spoonacular.com/recipes/complexSearch?apiKey=${token}&cuisine=${country}`, true);
-
-            request.onload = () => {
-              const result = JSON.parse(request.response);
-              if (request.status >= 200 && request.status < 400) {
-                const getRandom = Math.floor(Math.random() * (result.results.length));
-                const getImg = result.results[getRandom].image;
-                const getTitle = result.results[getRandom].title;
-
-                const msg = `
-                    <strong>${getTitle}</strong>
-                    <br>
-                    <img src="${getImg}" width="100%" height="100%" alt="countryFood">
-                    <br>
-                    <a href="${getImg}" style="color:white;" target="_blank">Full Size</a>
-                  `;
-                resolve(msg);
-              }
-            };
-            request.send();
-          } catch (error) {
-            reject(error);
-          }
-        });
+        return fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=34d18592e33e441eada162bf7d27d881&cuisine=${country}`)
+          .then((res) => res.json())
+          .then((dataReturn) => {
+            const rndm = Math.floor(Math.random() * (dataReturn.results.length));
+            return `
+            <strong>${dataReturn.results[rndm].title}</strong>
+            <br>
+            <img src="${dataReturn.results[rndm].image}" width="100%" height="100%" alt="countryFood">
+            <br>
+            <a href="${dataReturn.results[rndm].image}" style="color:white;" target="_blank">Full Size</a>
+            `;
+          })
+          .catch(() => 'Couldn\'t fetch food from that country.');
       }
     }
   ]
